@@ -11,9 +11,13 @@
       import * as THREE from './build/three.module.js';
 
       import { WEBGL } from './jsm/WebGL.js';
+      import { OrbitControls } from './jsm/controls/OrbitControls.js';
       import { FBXLoader } from './jsm/loaders/FBXLoader.js';
 
-      let scene, camera, renderer;
+      let scene, camera, controls, renderer;
+      let wireMat;
+      let dirLight_1, dirLight_2, ambientLight;
+      let model_1;
 
       // checkWebGL();
       init();
@@ -23,6 +27,7 @@
         setupCamera();
         setupLights();
         setupRenderer();
+        setupControls();
         setupScene();
 
         window.addEventListener( 'resize', onWindowResize, false );
@@ -32,14 +37,36 @@
 
       // -----------------------------------------------------
       function setupCamera() {
-        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 100, 800);
-        camera.position.z = -800;
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1200);
+        camera.position.z = 1200;
+        // camera.position.x = 1000;
+      }
+
+
+      // -----------------------------------------------------
+      function setupControls() {
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 100;
+				controls.maxDistance = 500;
+				controls.maxPolarAngle = Math.PI / 2;
       }
 
 
       // -----------------------------------------------------
       function setupLights() {
+        dirLight_1 = new THREE.DirectionalLight( 0xffffff );
+				dirLight_1.position.set( 1, 1, 1 );
+				
 
+			  dirLight_2 = new THREE.DirectionalLight( 0x002288 );
+				dirLight_2.position.set( - 1, - 1, - 1 );
+
+
+				ambientLight = new THREE.AmbientLight( 0x222222 );
+				
       }
 
 
@@ -55,7 +82,7 @@
         renderer.shadowMap.enabled = false;
         renderer.sortObjects       = false;
         renderer.autoClear         = false;
-        renderer.setClearColor(0x000000, 0.0);
+        renderer.setClearColor(0x000000, 0.0); // no longer works? 
         renderer.domElement.id = 'canvas';
 
         document.body.appendChild(renderer.domElement);
@@ -65,22 +92,46 @@
       // -----------------------------------------------------
       function setupScene() {
         scene = new THREE.Scene();
+        scene.background = new THREE.Color( 0x000000 );
         camera.lookAt(scene.position);
 
-        // add lights
-        // scene.add(<light>)
+        wireMat = new THREE.MeshBasicMaterial( {
+          color: 0xe0e0ff,
+          wireframe: true,
+          wireframeLinewidth: 0.1,
+          shading: THREE.FlatShading
+        });
         
         // load model
         const loader = new FBXLoader();
+        loader.load('./models/seed-car.fbx', (fbxData) => {
+          console.log(fbxData);
 
-        // loader.load...
+          fbxData.traverse((child) => {
+            if (child.isMesh) {
+              // console.log('child is mesh: ', child);
+              child.material = wireMat;
+            }
+          })
+          
+          model_1 = fbxData;
+        
+          scene.add(model_1);
+          // model_1.translateY( -600 );
+
+        });
+
+        scene.add( dirLight_1 );
+        scene.add( dirLight_2 );
+        scene.add( ambientLight );
 
         // TODO raycasting
       }
 
-
+      // -----------------------------------------------------
       function animate() {
         requestAnimationFrame(animate);
+        controls.update();
         renderer.clear();
         renderer.render(scene, camera);
       }
