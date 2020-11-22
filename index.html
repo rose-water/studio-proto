@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name='viewport' content='width=device-width'/>
+    <title>F20 Studio Proto</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <script type="module">
+
+      import * as THREE from './build/three.module.js';
+
+      import { WEBGL } from './jsm/WebGL.js';
+      import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+
+      let scene, camera, renderer;
+
+      // checkWebGL();
+      init();
+
+      // -----------------------------------------------------
+      function init() {
+        setupCamera();
+        setupLights();
+        setupRenderer();
+        setupScene();
+
+        window.addEventListener( 'resize', onWindowResize, false );
+        animate();
+      }
+
+
+      // -----------------------------------------------------
+      function setupCamera() {
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 100, 800);
+        camera.position.z = -800;
+      }
+
+
+      // -----------------------------------------------------
+      function setupLights() {
+
+      }
+
+
+      // -----------------------------------------------------
+      function setupRenderer() {
+        renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          alpha: true
+        });
+
+        renderer.setPixelRatio(window.devicePixelRatio * 0.8);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = false;
+        renderer.sortObjects       = false;
+        renderer.autoClear         = false;
+        renderer.setClearColor(0x000000, 0.0);
+        renderer.domElement.id = 'canvas';
+
+        document.body.appendChild(renderer.domElement);
+      }
+
+
+      // -----------------------------------------------------
+      function setupScene() {
+        scene = new THREE.Scene();
+        camera.lookAt(scene.position);
+
+        // add lights
+        // scene.add(<light>)
+        
+        // load model
+        const loader = new FBXLoader();
+
+        // loader.load...
+
+        // TODO raycasting
+      }
+
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.clear();
+        renderer.render(scene, camera);
+      }
+
+
+      // -----------------------------------------------------
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+
+      // -----------------------------------------------------
+      function checkWebGL() {
+        if ( WEBGL.isWebGLAvailable() ) {
+          init();
+        } else {
+          const warning = WEBGL.getWebGLErrorMessage();
+          alert('WebGL Error: ', warning);
+        }
+      }
+    
+    </script>
+  </body>
+</html>
