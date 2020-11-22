@@ -37,8 +37,8 @@
 
       // -----------------------------------------------------
       function setupCamera() {
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1200);
-        camera.position.z = 1200;
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 800);
+        camera.position.z = 300;
         // camera.position.x = 1000;
       }
 
@@ -48,7 +48,7 @@
         controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
-        controls.screenSpacePanning = false;
+        controls.screenSpacePanning = true;
         controls.minDistance = 100;
 				controls.maxDistance = 500;
 				controls.maxPolarAngle = Math.PI / 2;
@@ -99,7 +99,7 @@
           color: 0xe0e0ff,
           wireframe: true,
           wireframeLinewidth: 0.1,
-          shading: THREE.FlatShading
+          flatShading: true
         });
         
         // load model

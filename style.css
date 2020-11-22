@@ -1,1 +1,9 @@
-canvas { outline: none; border: none; }
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas { 
+  outline: none; 
+  border: none; 
+}
