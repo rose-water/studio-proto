@@ -3,7 +3,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: black;
+  background: #121529;
 }
 
 canvas { 
@@ -34,7 +34,7 @@ canvas {
 	right: 20px;
   padding: 16px;
   line-height: 14pt;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(18, 21, 41, 0.6);
 }
 
 p {
@@ -47,18 +47,18 @@ button {
   border: 1px solid #6aeaff;
   padding: 12px;
   color: white;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(18, 21, 41, 0.6);
 }
 
 button:hover {
   cursor: pointer;
   background: rgba(106, 234, 255, 1.0);
-  color: black;
+  color: #121529;
 }
 
 button.selected {
   background: rgba(106, 234, 255, 1.0);
-  color: black;
+  color: #121529;
 }
 
 button:focus {
