@@ -21,3 +21,22 @@ canvas {
   position: absolute;
   color: white;
 }
+
+#model-info {
+  display: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 11pt;
+  position: absolute;
+	color: white;
+	border: 1px solid lightskyblue;
+	width: 500px;
+	bottom: 20px;
+	right: 20px;
+  padding: 16px;
+  line-height: 14pt;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+p {
+  margin: 0;
+}
