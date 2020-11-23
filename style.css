@@ -28,7 +28,7 @@ canvas {
   font-size: 11pt;
   position: absolute;
 	color: white;
-	border: 1px solid lightskyblue;
+	border: 1.5px dashed #6aeaff;
 	width: 500px;
 	bottom: 20px;
 	right: 20px;
@@ -39,4 +39,40 @@ canvas {
 
 p {
   margin: 0;
+}
+
+button {
+  font-family: 'DM Mono', monospace;
+  position: absolute;
+  border: 1px solid #6aeaff;
+  padding: 12px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  cursor: pointer;
+  background: rgba(106, 234, 255, 1.0);
+  color: black;
+}
+
+button.selected {
+  background: rgba(106, 234, 255, 1.0);
+  color: black;
+}
+
+button:focus {
+  outline: 0;
+}
+
+#bark-beetle-btn {
+  display: none;
+	right: 20px;
+	top: 20px;
+}
+
+#seed-car-btn {
+  display: none;
+	top: 20px;
+  right: 172px;
 }

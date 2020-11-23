@@ -12,8 +12,11 @@
     </div>
 
     <div id='model-info'>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Cars are unintentional, man-made mechanisms for dispersing seeds; seeds often get stuck on various parts of the car including the chassis, bumpers, wheels, and interior floor mats. This design explores ways of making this seed dispersal more intentional as 'natural' mechanisms dwindle as a result of climate change. This autonomous vehicle has been outfitted with a seed dispersal device, attached to the roof rack.</p>
     </div>
+
+    <button id='seed-car-btn' class='button'>CAR SEED DISPERSER</button>
+    <button id='bark-beetle-btn' class='button'>PINE COMPANION</button>
 
     <script type="module">
 
@@ -32,14 +35,16 @@
       let numModelsLoaded = 0;
       let numModels = 2;
 
-      let loader = document.getElementById('loader');
-      let modelInfo = document.getElementById('model-info');
+      let loader        = document.getElementById('loader');
+      let modelInfo     = document.getElementById('model-info');
+      let seedCarBtn    = document.getElementById('seed-car-btn');
+      let barkBeetleBtn = document.getElementById('bark-beetle-btn');
 
       const modelOpts = [
         {
           fbxFilename: 'seed-car.fbx',
           camPos: { x: 0, y: 0, z: 130 },
-          modelPos: { x: -40, y: -30, z: 0 },
+          modelPos: { x: -20, y: -30, z: 0 },
           modelRot: { x: 0, y: 120, z: 0 }
         },
         {
@@ -69,25 +74,18 @@
       function addEventListeners() {
         window.addEventListener( 'resize', onWindowResize, false );
 
-        window.addEventListener("keypress", e => {
-          // console.log('keypress, key is: ', e.key);
+        seedCarBtn.addEventListener('click', () => {
+          updateModelDisplayed('seed-car');
+          barkBeetleBtn.classList.remove('selected');
+          seedCarBtn.classList.add('selected');
           
-          switch (e.key) {
-            case ('0'): 
-              console.log('keypress case 0: seed-car')
-              updateModelDisplayed('seed-car');
-              break;
-
-            case ('1'):
-              console.log('keypress case 1: bark-beetle')
-              updateModelDisplayed('bark-beetle');
-              break;
-
-            default:
-              // do nothing 
-              // updateModelDisplayed('keypress other: seed-car');
-          }
         });
+
+        barkBeetleBtn.addEventListener('click', () => {
+          updateModelDisplayed('bark-beetle');
+          barkBeetleBtn.classList.add('selected');
+          seedCarBtn.classList.remove('selected');
+        })
       }
 
 
@@ -179,9 +177,12 @@
           camera.position.z = modelOpts[0].camPos.z; 
 
           controls.update();
+
+          // DEFAULT SETTINGS - prob could move somewhere else  
           currentModel = 'seed-car';
           scene.add(model_0);
           camera.lookAt(model_0.position);
+          seedCarBtn.classList.add('selected');
         });
 
         // -----------------------------------------------
@@ -216,7 +217,7 @@
       // this is so convoluted BLEH well, we will fix it soon
       function updateModelDisplayed(model) {
         
-        console.log('[ updateModelDisplayed ] current model: ' + currentModel + ', new model: ' + model);
+        // console.log('[ updateModelDisplayed ] current model: ' + currentModel + ', new model: ' + model);
 
         if (model !== currentModel || model == undefined ) {
 
@@ -229,7 +230,8 @@
               scene.remove(model_1);
             
             default:
-              console.log('[ updateModelDisplayed ] currentModel undefined, removing nothing: ' + currentModel);
+              // Do nothing
+              // console.log('[ updateModelDisplayed ] currentModel undefined, removing nothing: ' + currentModel);
           }
           
 
@@ -279,9 +281,11 @@
         requestAnimationFrame(animate);
 
         if (numModelsLoaded == 2) {
-          modelsLoaded = true;
-          loader.style.display = 'none';
-          modelInfo.style.display = 'block';
+          modelsLoaded                = true;
+          loader.style.display        = 'none';
+          modelInfo.style.display     = 'block';
+          seedCarBtn.style.display    = 'block';
+          barkBeetleBtn.style.display = 'block';
         }
 
         if (modelsLoaded) {
