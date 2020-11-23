@@ -160,8 +160,22 @@
           
           model_0 = fbxData;
 
-          // set default model displayed
-          updateModelDisplayed('seed-car');
+          model_0.position.x = modelOpts[0].modelPos.x;
+          model_0.position.y = modelOpts[0].modelPos.y;
+          model_0.position.z = modelOpts[0].modelPos.z;
+
+          model_0.rotation.x = modelOpts[0].modelRot.x * THREE.Math.DEG2RAD;
+          model_0.rotation.y = modelOpts[0].modelRot.y * THREE.Math.DEG2RAD;
+          model_0.rotation.z = modelOpts[0].modelRot.z * THREE.Math.DEG2RAD;
+
+          camera.position.x = modelOpts[0].camPos.x;
+          camera.position.y = modelOpts[0].camPos.y;
+          camera.position.z = modelOpts[0].camPos.z; 
+
+          controls.update();
+          currentModel = 'seed-car';
+          scene.add(model_0);
+          camera.lookAt(model_0.position);
         });
 
         // -----------------------------------------------
