@@ -9,4 +9,3 @@ hosted [here](https://studio-proto.netlify.app/) for now (slow, recommend runnin
 ### Navigation
 Left click + drag to rotate
 Right click + drag to pan
-Number keys 0 and 1 for switching models
