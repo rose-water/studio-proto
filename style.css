@@ -1,9 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&display=swap');
+
 html, body {
   margin: 0;
   padding: 0;
+  background: black;
 }
 
 canvas { 
   outline: none; 
   border: none; 
+}
+
+#loader {
+  font-family: 'DM Mono', monospace;
+  font-size: 48pt;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  color: white;
 }

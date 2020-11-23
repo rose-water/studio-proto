@@ -6,6 +6,11 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+
+    <div id='loader'>
+      <span>MODELS LOADING...</span>
+    </div>
+
     <script type="module">
 
       import * as THREE from './build/three.module.js';
@@ -18,7 +23,12 @@
       let wireMat;
       let dirLight_1, dirLight_2, ambientLight;
       let currentModel, model_0, model_1;
+
       let modelsLoaded = false;
+      let numModelsLoaded = 0;
+      let numModels = 2;
+
+      let loader = document.getElementById('loader');
 
       const modelOpts = [
         {
@@ -40,7 +50,6 @@
 
       // -----------------------------------------------------
       function init() {
-        currentModel = modelOpts[0];
       
         setupCamera();
         setupLights();
@@ -118,6 +127,7 @@
         // model_0 = seed-car
         loader.load(`./models/${ modelOpts[0].fbxFilename }`, (fbxData) => {
           // console.log(fbxData);
+          numModelsLoaded++;
 
           fbxData.traverse((child) => {
             if (child.isMesh) {
@@ -135,6 +145,7 @@
         // model_1 = bark-beetle
         loader.load(`./models/${ modelOpts[1].fbxFilename }`, (fbxData) => {
           // console.log(fbxData);
+          numModelsLoaded++;
 
           fbxData.traverse((child) => {
             if (child.isMesh) {
@@ -201,10 +212,19 @@
 
       // -----------------------------------------------------
       function animate() {
+
         requestAnimationFrame(animate);
-        controls.update();
-        renderer.clear();
-        renderer.render(scene, camera);
+
+        if (numModelsLoaded == 2) {
+          modelsLoaded = true;
+          loader.style.display = 'none';
+        }
+
+        if (modelsLoaded) {
+          controls.update();
+          renderer.clear();
+          renderer.render(scene, camera);
+        }
       }
 
 
@@ -227,5 +247,6 @@
       }
     
     </script>
+
   </body>
 </html>
