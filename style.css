@@ -29,12 +29,12 @@ canvas {
   position: absolute;
 	color: white;
 	border: 1.5px dashed #6aeaff;
-	width: 500px;
-	bottom: 20px;
-	right: 20px;
+	width: 450px;
+	top: 230px;
+	right: 50px;
   padding: 16px;
   line-height: 14pt;
-  background: rgba(18, 21, 41, 0.6);
+  background: rgba(18, 21, 41, 0.8);
 }
 
 p {

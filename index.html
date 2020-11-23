@@ -12,7 +12,7 @@
     </div>
 
     <div id='model-info'>
-      <p>Cars are unintentional, man-made mechanisms for dispersing seeds; seeds often get stuck on various parts of the car including the chassis, bumpers, wheels, and interior floor mats. This design explores ways of making this seed dispersal more intentional as 'natural' mechanisms dwindle as a result of climate change. This autonomous vehicle has been outfitted with a seed dispersal device, attached to the roof rack.</p>
+      <p id='model-info-text'></p>
     </div>
 
     <button id='seed-car-btn' class='button'>CAR SEED DISPERSER</button>
@@ -37,6 +37,7 @@
 
       let loader        = document.getElementById('loader');
       let modelInfo     = document.getElementById('model-info');
+      let modelInfoText = document.getElementById('model-info-text');
       let seedCarBtn    = document.getElementById('seed-car-btn');
       let barkBeetleBtn = document.getElementById('bark-beetle-btn');
 
@@ -45,13 +46,15 @@
           fbxFilename: 'seed-car.fbx',
           camPos: { x: 0, y: 0, z: 130 },
           modelPos: { x: -20, y: -30, z: 0 },
-          modelRot: { x: 0, y: 120, z: 0 }
+          modelRot: { x: 0, y: 120, z: 0 },
+          description: 'Cars are unintentional, man-made mechanisms for dispersing seeds; seeds often get stuck on various parts of the car including the chassis, bumpers, wheels, and interior floor mats. This design explores ways of making this seed dispersal more intentional as \'natural\' mechanisms dwindle as a result of climate change. This autonomous vehicle has been outfitted with a seed dispersal device, attached to the roof rack.'
         },
         {
           fbxFilename: 'bark-beetle.fbx',
           camPos: { x: 320, y: 60, z: 75 },
           modelPos: { x: 270, y: -40, z: 60 },
-          modelRot: { x: 0, y: 180, z: 0 }
+          modelRot: { x: 0, y: 180, z: 0 },
+          description: 'Bark beetles are '
         }
       ];
 
@@ -78,13 +81,14 @@
           updateModelDisplayed('seed-car');
           barkBeetleBtn.classList.remove('selected');
           seedCarBtn.classList.add('selected');
-          
+          modelInfoText.innerHTML = modelOpts[0].description;
         });
 
         barkBeetleBtn.addEventListener('click', () => {
           updateModelDisplayed('bark-beetle');
           barkBeetleBtn.classList.add('selected');
           seedCarBtn.classList.remove('selected');
+          modelInfoText.innerHTML = modelOpts[1].description;
         })
       }
 
@@ -183,6 +187,8 @@
           scene.add(model_0);
           camera.lookAt(model_0.position);
           seedCarBtn.classList.add('selected');
+          modelInfoText.innerHTML = modelOpts[0].description;
+          
         });
 
         // -----------------------------------------------
