@@ -33,15 +33,15 @@
       const modelOpts = [
         {
           fbxFilename: 'seed-car.fbx',
-          camPos: { x: 0, y: 0, z: 150 },
-          modelPos: { x: 0, y: -30, z: 0 },
+          camPos: { x: 0, y: 0, z: 130 },
+          modelPos: { x: -40, y: -30, z: 0 },
           modelRot: { x: 0, y: 120, z: 0 }
         },
         {
           fbxFilename: 'bark-beetle.fbx',
-          camPos: [ 320, 60, 45 ],
-          modelPos: [],
-          modelRot: []
+          camPos: { x: 320, y: 60, z: 75 },
+          modelPos: { x: 270, y: -40, z: 60 },
+          modelRot: { x: 0, y: 180, z: 0 }
         }
       ];
 
@@ -50,15 +50,38 @@
 
       // -----------------------------------------------------
       function init() {
-      
         setupCamera();
         setupLights();
         setupRenderer();
         setupControls();
         setupScene();
-
-        window.addEventListener( 'resize', onWindowResize, false );
+        addEventListeners();
         animate();
+      }
+
+
+      // -----------------------------------------------------
+      function addEventListeners() {
+        window.addEventListener( 'resize', onWindowResize, false );
+
+        window.addEventListener("keypress", e => {
+          // console.log('keypress, key is: ', e.key);
+          
+          switch (e.key) {
+            case ('0'): 
+              console.log('keypress case 0: seed-car')
+              updateModelDisplayed('seed-car');
+              break;
+
+            case ('1'):
+              console.log('keypress case 1: bark-beetle')
+              updateModelDisplayed('bark-beetle');
+              break;
+
+            default: 
+              updateModelDisplayed('keypress other: seed-car');
+          }
+        });
       }
 
 
@@ -170,44 +193,64 @@
       }
 
       // -----------------------------------------------------
+      // this is so convoluted BLEH well, we will fix it soon
       function updateModelDisplayed(model) {
         
-        console.log('[ updateModelDisplayed ] model: ', model);
+        console.log('[ updateModelDisplayed ] current model: ' + currentModel + ', new model: ' + model);
 
-        let newSelectedModel;
-        let newSelectedModelOpts; 
+        if (model !== currentModel || model == undefined ) {
 
-        switch (model) {
-          case ('seed-car'):
-            newSelectedModel = model_0;
-            newSelectedModelOpts = modelOpts[0];
-            break;
+          switch (currentModel) {
+            case ('seed-car'):
+              scene.remove(model_0);
+              break;
 
-          case ('bark-beetle'):
-            newSelectedModel = model_1;
-            newSelectedModelOpts = modelOpts[1];
-            break;
+            case ('bark-beetle'):
+              scene.remove(model_1);
+            
+            default:
+              console.log('[ updateModelDisplayed ] currentModel undefined, removing nothing: ' + currentModel);
+          }
+          
 
-          default: 
-            newSelectedModel = model_0;
-            newSelectedModelOpts = modelOpts[0];
+          let newSelectedModel;
+          let newSelectedModelOpts; 
+
+          switch (model) {
+            case ('seed-car'):
+              newSelectedModel = model_0;
+              newSelectedModelOpts = modelOpts[0];
+              break;
+
+            case ('bark-beetle'):
+              newSelectedModel = model_1;
+              newSelectedModelOpts = modelOpts[1];
+              break;
+
+            default: 
+              newSelectedModel = model_0;
+              newSelectedModelOpts = modelOpts[0];
+          }
+
+          newSelectedModel.position.x = newSelectedModelOpts.modelPos.x;
+          newSelectedModel.position.y = newSelectedModelOpts.modelPos.y;
+          newSelectedModel.position.z = newSelectedModelOpts.modelPos.z;
+
+          newSelectedModel.rotation.x = newSelectedModelOpts.modelRot.x * THREE.Math.DEG2RAD;
+          newSelectedModel.rotation.y = newSelectedModelOpts.modelRot.y * THREE.Math.DEG2RAD;
+          newSelectedModel.rotation.z = newSelectedModelOpts.modelRot.z * THREE.Math.DEG2RAD;
+
+          camera.position.x = newSelectedModelOpts.camPos.x;
+          camera.position.y = newSelectedModelOpts.camPos.y;
+          camera.position.z = newSelectedModelOpts.camPos.z; 
+
+          controls.update();
+          
+          scene.add(newSelectedModel);
+          currentModel = model;
+
+          camera.lookAt(newSelectedModel.position);
         }
-
-        newSelectedModel.position.x = newSelectedModelOpts.modelPos.x;
-        newSelectedModel.position.y = newSelectedModelOpts.modelPos.y;
-        newSelectedModel.position.z = newSelectedModelOpts.modelPos.z;
-
-        newSelectedModel.rotation.x = newSelectedModelOpts.modelRot.x * THREE.Math.DEG2RAD;
-        newSelectedModel.rotation.y = newSelectedModelOpts.modelRot.y * THREE.Math.DEG2RAD;
-        newSelectedModel.rotation.z = newSelectedModelOpts.modelRot.z * THREE.Math.DEG2RAD;
-
-        camera.position.x = newSelectedModelOpts.camPos.x;
-        camera.position.y = newSelectedModelOpts.camPos.y;
-        camera.position.z = newSelectedModelOpts.camPos.z; 
-
-        controls.update();
-        scene.add(newSelectedModel);
-        camera.lookAt(newSelectedModel.position);
       } 
 
       // -----------------------------------------------------
